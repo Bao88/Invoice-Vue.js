@@ -41,12 +41,19 @@ new Vue({
         },
         invoices: []
       }),
-    
+      watch: {
+        
+      },
       methods: {
         submit () {
           if (this.$refs.form.validate()) {
             // Native form submission is not yet supported
-            alert("Send data!");
+            console.log(this.$refs.form);
+            console.log(this.$refs.form.$el);
+            const data = {};
+            const dataContainer = document.getElementsByTagName("input");
+            console.log(dataContainer);
+            // console.log(this.data);
             // axios.post('/api/submit', {
             //   name: this.name,
             //   email: this.email,

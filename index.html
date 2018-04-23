@@ -84,20 +84,28 @@
                     <v-text-field label="Discount Rate" v-model="invoice.discountRate"></v-text-field>
                   </v-flex>
                   <v-flex xs1>
-                    <v-text-field label="Net Price" v-model="invoice.netPrice"></v-text-field>
+                      <v-text-field label="Net Price" v-model="invoice.netPrice" disabled></v-text-field>
+                      <v-text-field 
+                        label="Net Price" 
+                        v-bind:value="invoice.quantity*invoice.unitPrice-(invoice.quantity*invoice.unitPrice*(invoice.discountRate/100)) " 
+                        disabled
+                        ></v-text-field>
                   </v-flex>
                   <v-flex xs1>
                     <v-text-field label="VAT Rate" v-model="invoice.vatRate"></v-text-field>
                   </v-flex>
                   <v-flex xs2>
-                    <v-text-field label="VAT Amount" v-model="invoice.vatAmount"></v-text-field>
+                    <!-- <v-text-field label="VAT Amount" v-model="invoice.vatAmount" disabled></v-text-field> -->
+                    <v-text-field label="VAT Amount" v-bind:value="(invoice.quantity*invoice.unitPrice-(invoice.quantity*invoice.unitPrice*(invoice.discountRate/100)))*(invoice.vatRate/100)" disabled></v-text-field>
+                    
                   </v-flex>
                 </v-layout>
             </div>
             
-            <div>Total NET</div>
+            <v-text-field label="Total VAT Amount" v-model="invoice.netPrice">
+            </v-text-field>
             <v-btn @click="submit" :disabled="!valid">
-              submit
+              Save
             </v-btn>
             <v-btn @click="clear">clear</v-btn>
           </v-container>
