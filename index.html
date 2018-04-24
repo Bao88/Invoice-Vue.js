@@ -27,8 +27,7 @@
                     <v-text-field label="Postal Place" v-model="customer.postalPlace" :rules="rules.postalPlaceRules"  required></v-text-field>
                   </v-flex>
                 </v-layout>
-                <v-select label="Country" :items="items" item-value="text" @change="selectCountry" required></v-select>
-                </v-select>
+                <v-select label="Country" v-model="selected" :items="items" item-value="text" @change="selectCountry" required></v-select>
               </v-flex>
 
               <v-flex xs1></v-flex>

@@ -2,6 +2,7 @@ new Vue({
     el: "#invoice-creator",
     data: () => ({
         valid: true,
+        selected: "Norway",
         global: {
             number: "1234567890",
             ocrNumber: "9999999999",
@@ -77,19 +78,30 @@ new Vue({
         },
         items: [
             { text: 'Norway' }
-            // ,
-            // { text: 'Sweden' },
-            // { text: 'Denmark' }
+            ,
+            { text: 'Sweden' },
+            { text: 'Denmark' }
         ]
     }),
     watch: {
 
     },
     methods: {
-        selectCountry() {
-            this.customer.country = "NO";
-            this.customer.landline = "+47";
-            this.global.currency = "NOK";
+        selectCountry(label) {
+            if(label == "Norway"){
+                this.customer.country = "NO";
+                this.customer.landline = "+47";
+                this.global.currency = "NOK";
+            } else if(label == "Sweden"){
+                this.customer.country = "SWE";
+                this.customer.landline = "+46";
+                this.global.currency = "SEK";
+            } else {
+                this.customer.country = "DK";
+                this.customer.landline = "+45";
+                this.global.currency = "DKK";
+            }
+            
         },
         submit() {
             if (this.$refs.form.validate()) {
