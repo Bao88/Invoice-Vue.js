@@ -69,6 +69,10 @@ new Vue({
             postalPlaceRules: [
                 v => !!v || 'Postal Place is required',
                 v => /^[a-zA-Z]+$/.test(v) || 'Postal Place must be valid'
+            ],
+            numberRules: [
+                v => !!v || "Numbers only",
+                v => /^[0-9]+$/.test(v) || 'Please use numbers only'
             ]
         },
         items: [
