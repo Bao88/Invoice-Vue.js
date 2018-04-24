@@ -11,99 +11,97 @@
   <div id="invoice-creator">
     <v-app dark>
       <v-content>
-
-        
         <v-form v-model="valid" ref="form" lazy-validation>
           <h2>Customer</h2>
           <v-container grid-list-xl fluid>
-              <h1>Invoice</h1>
+            <h1>Invoice</h1>
             <v-layout wrap>
               <v-flex xs4>
-                <v-text-field label="Name" v-model="customer.name" :rules="customer.nameRules" required></v-text-field>
-                <v-text-field label="Address" v-model="customer.address1" required></v-text-field>
-                <!-- <v-text-field label="" v-model="address2"></v-text-field>
-                <v-text-field label="" v-model="address3"></v-text-field> -->
+                <v-text-field label="Name" v-model="customer.name" :rules="rules.nameRules" required></v-text-field>
+                <v-text-field label="Address" v-model="customer.address1" :rules="rules.addressRules" required></v-text-field>
                 <v-layout wrap>
-                    <v-flex xs4>
-                        <v-text-field label="Postal Code" v-model="customer.postalCode" required></v-text-field>
-                    </v-flex>
-                    <v-flex xs4>
-                        <v-text-field label="Postal Place" v-model="customer.postalPlace" required></v-text-field>
-                    </v-flex>
-                </v-layout>  
-                <v-select
-                label="Country"
-                v-model="customer.country"
-                :items="customer.items"
-                item-value="text"
-                required
-              ></v-select>
-
+                  <v-flex xs4>
+                    <v-text-field label="Postal Code" v-model="customer.postalCode" :rules="rules.postalCodeRules" required></v-text-field>
+                  </v-flex>
+                  <v-flex xs4>
+                    <v-text-field label="Postal Place" v-model="customer.postalPlace" :rules="rules.postalPlaceRules"  required></v-text-field>
+                  </v-flex>
+                </v-layout>
+                <v-select label="Country" :items="items" item-value="text" @change="selectCountry" required></v-select>
                 </v-select>
-                <!-- <v-text-field label="Country" v-model="country" required></v-text-field> -->
-              
               </v-flex>
+
               <v-flex xs1></v-flex>
-              <v-flex xs4>
-                <v-text-field label="Landline" v-model="customer.landline"></v-text-field>
-                <v-text-field label="Phone" v-model="customer.mobile"></v-text-field>
-                <v-text-field label="E-mail" v-model="customer.email" :rules="customer.emailRules" required></v-text-field>
+
+              <v-flex xs3>
+                <v-layout wrap>
+                  <v-flex xs4>
+                    <v-text-field label="Landline" v-model="customer.landline" disabled></v-text-field>
+                  </v-flex>
+                  <v-text-field label="Phone" v-model="customer.mobile" :rules="rules.phoneRules"></v-text-field>
+                </v-layout>
+                <v-layout wrap>
+                  <v-text-field label="E-mail" v-model="customer.email" :rules="rules.emailRules" required></v-text-field>
+                </v-layout>
               </v-flex>
 
             </v-layout>
-            <h2>Invoice lines <button type="button" v-on:click="addInvoice" class="btn btn-block btn-success">Add+</button></h2>
+            <h2>Invoice lines
+              <button type="button" v-on:click="addInvoice" class="btn btn-block btn-success">Add+</button>
+            </h2>
             <div v-for="(invoice, index) in invoices" :key="invoice.id">
-                <v-layout wrap>
-                    <button type="button" v-on:click="removeInvoice(index)" class="btn btn-block btn-danger">Remove</button>
-                  <v-flex xs3>
+              <v-layout wrap>
+                <button type="button" v-on:click="removeInvoice(index)" class="btn btn-block btn-danger">Remove</button>
+                <v-flex xs3>
                   <v-text-field label="Article Number" v-model="invoice.articleNumber"></v-text-field>
-                  <!-- <v-text-field label="" v-model="text2"></v-text-field> -->
-                  <!-- <v-text-field label="" v-model="text3"></v-text-field> -->
-                  
-                 
-                  </v-flex>
-                 
-                  <v-flex xs3>
-                      <v-text-field label="Description" v-model="invoice.text1"></v-text-field>
-                  </v-flex>
-    
-                 
-                </v-layout>
-                <v-layout wrap>
-                  <v-flex xs1></v-flex>
-                  <v-flex xs1>
-                    <v-text-field label="Unit" v-model="invoice.unit"></v-text-field>
-                  </v-flex>
-                  <v-flex xs1>
-                    <v-text-field label="Quantity" v-model="invoice.quantity"></v-text-field>
-                  </v-flex>
-                  <v-flex xs1>
-                    <v-text-field label="Unit Price" v-model="invoice.unitPrice"></v-text-field>
-                  </v-flex>
-                  <v-flex xs2>
-                    <v-text-field label="Discount Rate" v-model="invoice.discountRate"></v-text-field>
-                  </v-flex>
-                  <v-flex xs1>
-                      <v-text-field label="Net Price" v-model="invoice.netPrice" disabled></v-text-field>
-                      <v-text-field 
-                        label="Net Price" 
-                        v-bind:value="invoice.quantity*invoice.unitPrice-(invoice.quantity*invoice.unitPrice*(invoice.discountRate/100)) " 
-                        disabled
-                        ></v-text-field>
-                  </v-flex>
-                  <v-flex xs1>
-                    <v-text-field label="VAT Rate" v-model="invoice.vatRate"></v-text-field>
-                  </v-flex>
-                  <v-flex xs2>
-                    <!-- <v-text-field label="VAT Amount" v-model="invoice.vatAmount" disabled></v-text-field> -->
-                    <v-text-field label="VAT Amount" v-bind:value="(invoice.quantity*invoice.unitPrice-(invoice.quantity*invoice.unitPrice*(invoice.discountRate/100)))*(invoice.vatRate/100)" disabled></v-text-field>
-                    
-                  </v-flex>
-                </v-layout>
+                </v-flex>
+
+                <v-flex xs3>
+                  <v-text-field label="Description" v-model="invoice.text1"></v-text-field>
+                </v-flex>
+              </v-layout>
+              <v-layout wrap>
+                <v-flex xs1></v-flex>
+                <v-flex xs1>
+                  <v-text-field label="Unit" v-model="invoice.unit"></v-text-field>
+                </v-flex>
+                <v-flex xs1>
+                  <v-text-field label="Quantity" v-model="invoice.quantity" @change="changeNetPrice(index)"></v-text-field>
+                </v-flex>
+                <v-flex xs1>
+                  <v-text-field label="Unit Price" v-model="invoice.unitPrice" @change="changeNetPrice(index)"></v-text-field>
+                </v-flex>
+                <v-flex xs2>
+                  <v-text-field label="Discount Rate" v-model="invoice.discountRate" @change="changeNetPrice(index)"></v-text-field>
+                </v-flex>
+                <v-flex xs1>
+                  <v-text-field label="Net Price" v-model="invoice.netPrice" disabled></v-text-field>
+                </v-flex>
+                <v-flex xs1>
+                  <v-text-field label="VAT Rate" v-model="invoice.vatRate" @change="changeVATAmount(index)"></v-text-field>
+                </v-flex>
+                <v-flex xs2>
+                  <v-text-field label="VAT Amount" v-model="invoice.vatAmount" disabled></v-text-field>
+                </v-flex>
+                <v-flex xs2>
+                  <v-text-field label="Sum" v-bind:value="invoice.netPrice+invoice.vatAmount" disabled></v-text-field>
+                </v-flex>
+              </v-layout>
             </div>
-            
-            <v-text-field label="Total VAT Amount" v-model="invoice.netPrice">
-            </v-text-field>
+            <v-layout wrap>
+              <v-flex xs6></v-flex>
+              <v-flex xs2>
+                <v-text-field label="Total Net Price" v-model="global.net" disabled></v-text-field>
+              </v-flex>
+              <v-flex xs2>
+                <v-text-field label="Total VAT Amount" v-model="global.vat" disabled></v-text-field>
+              </v-flex>
+
+              <v-flex xs2>
+                <v-text-field label="Gross" v-model="global.gross" disabled></v-text-field>
+              </v-flex>
+            </v-layout>
+
             <v-btn @click="submit" :disabled="!valid">
               Save
             </v-btn>
